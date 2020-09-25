@@ -363,12 +363,12 @@ void Observer::operate() {
             stateMachine->sendTrigger(EVT_slalom_challenge);//21
 
 
-        }else if(g_challenge_stepNo == 20 && curDegree <= -57){
+        }else if(g_challenge_stepNo == 20 && curDegree < -57){
             //その場で右回転
             g_challenge_stepNo = 22;
             stateMachine->sendTrigger(EVT_slalom_challenge);//22
 
-        }else if((g_challenge_stepNo == 21 && curDegree <= -57) || (g_challenge_stepNo == 22 && curDegree >= -57)){
+        }else if((g_challenge_stepNo == 21 && curDegree <= -57) || (g_challenge_stepNo == 22 && curDegree >= -63)){
             //角度が一定角度になったら、停止、直進
                 g_challenge_stepNo = 23;
                 stateMachine->sendTrigger(EVT_slalom_challenge); //23
@@ -445,12 +445,12 @@ void Observer::operate() {
             prevDegree = curDegree;
         // ４つ目の障害物に接近する
         }else if(g_challenge_stepNo == 100 && check_sonar(0,30) && own_abs(curDegree - prevDegree) > 55){ //
-            printf(",４つ目の障害物に接近する\n");
+            printf(",４つ目の障害物に接近する。locY=%lf,prevDisY=%lf,curDegree=%d\n",locY,prevDisY,curDegree);
             stateMachine->sendTrigger(EVT_slalom_challenge);
             g_challenge_stepNo = 110;
         // ４つ目の障害物に接近したら向きを変える
         }else if (g_challenge_stepNo == 110 && check_sonar(0,5)){
-            printf(",４つ目の障害物に接近したら向きを変える\n");
+            printf(",４つ目の障害物に接近したら向きを変えるlocY=%lf,prevDisY=%lf,curDegree=%d\n",locY,prevDisY,curDegree);
             stateMachine->sendTrigger(EVT_slalom_challenge);
             g_challenge_stepNo = 111;
             prevDegree = curDegree;
